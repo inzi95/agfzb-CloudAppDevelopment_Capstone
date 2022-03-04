@@ -1,11 +1,11 @@
-  applications:
-  - name: djangoapp
+applications:
+  - name: djangoapp-inzi
     routes:
-      - route: $HOST.$DOMAIN
+      - route: inzamam.eu-gb.mybluemix.net
     memory: 128M
     buildpack: python_buildpack
-  - name: djangoapp-nginx
+  - name: djangoapp-inzi-nginx
     routes:
-      - route: $HOST.$DOMAIN/static
+      - route: inzamam.eu-gb.mybluemix.net/static
     memory: 128M
     buildpack: staticfile_buildpack

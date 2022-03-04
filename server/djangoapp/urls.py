@@ -15,15 +15,21 @@ urlpatterns = [
     
     # path for contact us view
     path('contact/', view=views.contact, name='contact'),
+    
     # path for registration
+    path('signup/', view=views.registration_request, name='registration' ),
+    
 
     # path for login
+    path('login/',view=views.login_request, name='login'),
 
     # path for logout
-
+    path('logout/', view=views.logout_request, name='logout'),
 
     # path for dealer reviews view
 
+
     # path for add a review view
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

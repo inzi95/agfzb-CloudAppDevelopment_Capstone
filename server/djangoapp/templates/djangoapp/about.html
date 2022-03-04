@@ -28,19 +28,46 @@
             >Contact Us</a
           >
         </div>
-        <form class="form-inline my-2 my-lg-0">
+        {% if user.is_authenticated %}
+        <div class="rightalign">
+          <a class="border border-primary rounded mr-3 p-1" href="#"
+            >{{user.first_name}} {{user.last_name}}</a
+          >
+          <a href="{% url 'djangoapp:logout' %}">Logout</a>
+        </div>
+        {% else %}
+        <form
+          class="form-inline"
+          action="{% url 'djangoapp:login' %}"
+          method="post"
+        >
+          {% csrf_token %}
           <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
+            class="form-control mr-2"
+            type="text"
+            placeholder="Login Name"
+            name="username"
           />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Search
-          </button>
+          <input
+            class="form-control mr-2"
+            type="password"
+            placeholder="Password"
+            name="password"
+          />
+          <button class="btn btn-primary mr-2" type="submit">Login</button>
+          <a class="btn btn-primary" href="#">Sign Up</a>
         </form>
+        {% endif %}
       </div>
     </nav>
+    <!-- Any messages that appear will appear here. -->
+    {% if messages %}
+    <ul class="list-group">
+      {% for message in messages %}
+      <li class="list-group-item">{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
     <h3 class="text-center mt-4">
       Welcome to Best Cars dealership, home to the best cars in North America.
