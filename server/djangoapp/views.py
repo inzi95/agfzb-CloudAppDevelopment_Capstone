@@ -1,7 +1,6 @@
 from email import message
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
 # from .restapis import related methods
@@ -76,13 +75,18 @@ def registration_request(request):
             logger.error('New User')
         
         if not user_exist:
-            user = User.objects.create(username=username, password=password, first_name=first_name, last_name=last_name)
-            login(request,user)
-            messages.success(request,'User created. You are successfully logged in.')
-            return render(request, 'djangoapp/index.html',context)
+            if username == "" or password == "":
+                messages.warning(request, 'Please insert a valid username and password.')
+                return render(request, 'djangoapp/registration.html')
+            else:
+                user = User.objects.create_user(username=username, password=password, first_name=first_name, last_name=last_name)
+                user.save()
+                login(request,user)
+                messages.success(request,f'Welcome {username}. You are successfully logged in.')
+                return render(request, 'djangoapp/index.html')
         else:
             messages.error(request,'User already exists.')
-            return render(request, 'djangoapp/index.html',context)
+            return render(request, 'djangoapp/index.html')
 
         
         
