@@ -41,14 +41,15 @@ class CarModel(models.Model):
         (TRUCK, 'Truck')
     ]
 
-    maker = models.ForeignKey(CarMake, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     model_type = models.CharField(choices=CHOICES, max_length=100)
-    dealer_id = models.IntegerField()
+    dealership_id = models.IntegerField()
     year = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.maker.name + " , " + self.name
+        return self.make.name + " , " + self.name
 
 
 # <HINT> Create a plain Python class `CarDealer` to hold dealer data

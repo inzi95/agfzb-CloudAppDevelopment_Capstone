@@ -12,10 +12,15 @@ class CarModelInline(admin.StackedInline):
 # CarModelAdmin class
 
 
+class CarModelAdmin(admin.ModelAdmin):
+    list_filter = ['dealership_id']
+    model = CarModel
+
+
 class CarMakeAdmin(admin.ModelAdmin):
     inlines = [CarModelInline]
 
 
     # Register models here
 admin.site.register(CarMake, CarMakeAdmin)
-admin.site.register(CarModel)
+admin.site.register(CarModel, CarModelAdmin)

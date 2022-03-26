@@ -1,16 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
 
+<head>
+  <meta charset="UTF-8" />
+  {% load static %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css"
+    rel="stylesheet" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
 </head>
-    <body>
-    <!--Add review form here -->
-    </body>
+
+<body>
+  <nav class="navbar navbar-light" style="background-color: #e3f2fd">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Best Cars Dealership</a>
+        <a class="navbar-item mr-3" href="{% url 'djangoapp:index' %}">Home</a>
+        <a class="navbar-item mr-3" href="{% url 'djangoapp:about' %}">About Us</a>
+        <a class="navbar-item mr-3" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="rightalign">
+        <a class="border border-primary rounded mr-3 p-1" href="#">{{user.first_name}} {{user.last_name}}</a>
+        <a href="{% url 'djangoapp:logout' %}">Logout</a>
+      </div>
+      {% else %}
+      <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+        {% csrf_token %}
+        <input class="form-control mr-2" type="text" placeholder="Login Name" name="username" />
+        <input class="form-control mr-2" type="password" placeholder="Password" name="password" />
+        <button class="btn btn-primary mr-2" type="submit">Login</button>
+        <a class="btn btn-primary" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+      </form>
+      {% endif %}
+    </div>
+  </nav>
+  <!-- Any messages that appear will appear here. -->
+  {% if messages %}
+  <ul class="list-group">
+    {% for message in messages %}
+    <li class="list-group-item">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <!--Add review form here -->
+
+  <div class="container">
+    <h2>Add a review about {{dealership_name}} with ID {{dealer_id}}</h2>
+    <form method="post" action="{% url 'djangoapp:add_review' dealer_id %}" class="mt-3">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="reviewcontent" class="font-weight-bold">Enter the Review Content</label>
+        <textarea class="form-control" placeholder="Enter your review here." id="reviewcontent" name="reviewcontent"
+          rows="3"></textarea>
+      </div>
+      <div class="form-group ml-4">
+        <input type="checkbox" class="form-check-input" id="purchase-check" name="purchase-check" />
+        <label class="form-check-label" for="purchase-check">Has purchased the car from {{dealership_name}}</label>
+      </div>
+      <div class="form-group w-50">
+        <label for="car-model-selection" class="font-weight-bold">Select the car to review:
+        </label>
+        <select name="car-model-selection" id="car-model-selection" class="form-control">
+          {% for car in carmodels %}
+          <option selected value="{{car.id}}">
+            {{car.name}}-{{car.make.name}}-{{car.year}}-{{car.id}}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group w-50">
+        <label for="purchasedate" class="font-weight-bold">Select your Purchase Date</label>
+        <input type="text" class="date-own form-control" name="purchasedate" id="purchasedate" />
+      </div>
+      <button class="btn btn-primary w-25" type="submit">Submit</button>
+    </form>
+  </div>
+  <script type="text/javascript">
+    $(".date-own").datepicker({
+      format: "mm/dd/yyyy",
+    });
+  </script>
+</body>
+
 </html>

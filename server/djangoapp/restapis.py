@@ -35,7 +35,7 @@ def get_request(url, **kwargs):
 
 def post_request(url, **kwargs):
     response = requests.post(url, params=kwargs, json=kwargs['json'])
-    return response['body']['data']['docs']
+    return response.json()
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
 # def get_dealers_from_cf(url, **kwargs):
@@ -70,7 +70,6 @@ def get_dealers_from_cf(url, **kwargs):
             "StatusCode": 500,
             "message": "Something has gone wrong in retrieving the results."
         }
-
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
 # def get_dealer_by_id_from_cf(url, dealerId):
