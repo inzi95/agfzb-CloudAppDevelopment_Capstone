@@ -2,7 +2,6 @@ from email import message
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from matplotlib.style import context
 from .models import *
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
