@@ -89,6 +89,7 @@ class DealerReview:
         self.car_model = car_model
         self.car_year = car_year
         self.sentiment = sentiment
+        self.id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return f"{self.name} review: {self.review} - SENTIMENT is {self.sentiment} \n"

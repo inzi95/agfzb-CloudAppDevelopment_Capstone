@@ -115,7 +115,7 @@ def analyze_review_sentiments(text):
 
     natural_language_understanding.set_service_url(url)
 
-    response = natural_language_understanding.analyze(text=text, features=Features(
+    response = natural_language_understanding.analyze(language='en', text=text, features=Features(
         sentiment=SentimentOptions(targets=[text]))).get_result()
 
     label = json.dumps(response, indent=2)

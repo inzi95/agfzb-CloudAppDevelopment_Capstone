@@ -135,7 +135,7 @@ def get_dealer_details(request, dealer_id):
 # Create a `add_review` view to submit a review
 
 
-@login_required
+@login_required(login_url='/djangoapp/signup/')
 @csrf_protect
 def add_review(request, dealer_id):
     context = {}
@@ -159,7 +159,9 @@ def add_review(request, dealer_id):
         review['name'] = user.username
         review['dealership'] = dealer_id
         review['review'] = request.POST['reviewcontent']
-        review['purchase'] = False
+        review['purchase'] = request.POST.get('purchase-check', '') == 'on'
+        if not review['purchase']:
+            review['purchase_date'] = ''
         review['purchase_date'] = request.POST['purchasedate']
         review['car_make'] = car.make.name
         review['car_model'] = car.name

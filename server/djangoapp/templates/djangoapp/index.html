@@ -13,17 +13,42 @@
   <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
   <script
     src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
-  <script>
-    $(function () {
-      $('#table').bootstrapTable()
-    })
-  </script>
+
 </head>
+<style>
+  a {
+    color: white;
+    font-variant: small-caps;
+  }
+
+  a:hover {
+    color: rgb(161, 161, 255);
+    text-decoration: none;
+  }
+
+  #about {
+    border: 4px solid rgb(161, 161, 255);
+    border-radius: 10px;
+  }
+
+  button {
+    font-variant: small-caps;
+  }
+
+  .dealername_a {
+    color: black;
+    font-variant: normal;
+  }
+
+  .dealername_a:hover {
+    color: red;
+  }
+</style>
 
 <body>
   <!-- Remove this line the first time you edit this file -->
   <!-- Navbar Section of Index File -->
-  <nav class="navbar navbar-light" style="background-color: #e3f2fd">
+  <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Best Cars Dealership</a>
@@ -55,32 +80,44 @@
     {% endfor %}
   </ul>
   {% endif %}
-  <!--Add a dealer table here -->
-  <table class="table" id="dealership-table" data-filter-control="true" data-show-search-clear-button="true">
-    <thead class="thead-dark">
-      <tr>
-        <th data-field="id">ID</th>
-        <th data-field="full_name">Dealer Name</th>
-        <th data-field="city">City</th>
-        <th data-field="address">Address</th>
-        <th data-field="zip">Zip</th>
-        <th scope="st" data-filter-control="select">State</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for dealer in dealership_list %}
-      <tr>
-        <td>{{dealer.id}}</td>
-        <td><a href="{% url 'djangoapp:dealer_details' dealer.id %}">{{dealer.full_name}}</a></td>
-        <td>{{dealer.city}}</td>
-        <td>{{dealer.address}}</td>
-        <td>{{dealer.zip}}</td>
-        <td>{{dealer.st}}</td>
-      </tr>
-      {% endfor%}
-    </tbody>
-  </table>
-</body>
 
+  <!--Add a dealer table here -->
+  <div class="container">
+    <h2 class="text-center mt-2" style="font-variant: small-caps">
+      Find your nearest dealership below
+    </h2>
+    <table class="table table-hover" data-filter-control="true" id="table">
+      <thead class="thead-dark">
+        <tr>
+          <th data-field="id">ID</th>
+          <th data-field="full_name">Dealer Name</th>
+          <th data-field="city">City</th>
+          <th data-field="address">Address</th>
+          <th data-field="zip">Zip</th>
+          <th data-field="st" data-filter-control="select">State</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dealer in dealership_list %}
+        <tr>
+          <td>{{dealer.id}}</td>
+          <td>
+            <a href="{% url 'djangoapp:dealer_details' dealer.id %}" class="dealername_a">{{dealer.full_name}}</a>
+          </td>
+          <td>{{dealer.city}}</td>
+          <td>{{dealer.address}}</td>
+          <td>{{dealer.zip}}</td>
+          <td>{{dealer.st}}</td>
+        </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+  </div>
+  <script>
+    $(function () {
+      $("#table").bootstrapTable();
+    });
+  </script>
+</body>
 
 </html>
