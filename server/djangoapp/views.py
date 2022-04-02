@@ -104,7 +104,7 @@ def registration_request(request):
                 login(request, user)
                 messages.success(
                     request, f'Welcome {username}. You are successfully logged in.')
-                return render(request, 'djangoapp/index.html')
+                return render(request, 'djangoapp/index.html', context)
         else:
             messages.error(request, 'User already exists.')
             return render(request, 'djangoapp/index.html')
@@ -161,12 +161,15 @@ def add_review(request, dealer_id):
         review['review'] = request.POST['reviewcontent']
         review['purchase'] = request.POST.get('purchase-check', '') == 'on'
         if review['purchase'] == False:
-            review['purchase_date'] = ''
+            review['purchase_date'] = None
+            review['car_make'] = None
+            review['car_model'] = None
+            review['car_year'] = None
         else:
             review['purchase_date'] = request.POST['purchasedate']
-        review['car_make'] = car.make.name
-        review['car_model'] = car.name
-        review['car_year'] = car.year
+            review['car_make'] = car.make.name
+            review['car_model'] = car.name
+            review['car_year'] = car.year
         json_payload = {}
         json_payload["review"] = review
         print(json_payload['review'])

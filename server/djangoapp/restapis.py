@@ -83,6 +83,12 @@ def get_dealer_reviews_from_cf(url, **kwargs):
         reviews = json_result['body']['data']['docs']
         for review in reviews:
             review_doc = review
+            if review_doc['purchase'] == False:
+                review_doc['purchase_date'] = ""
+                review_doc['car_make'] = ""
+                review_doc['car_model'] = ""
+                review_doc['car_year'] = ""
+
             review_obj = DealerReview(dealership=review_doc['dealership'],
                                       name=review_doc['name'],
                                       review=review_doc['review'],
