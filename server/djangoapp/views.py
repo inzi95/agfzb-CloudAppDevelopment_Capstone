@@ -159,6 +159,9 @@ def add_review(request, dealer_id):
         review['name'] = user.username
         review['dealership'] = dealer_id
         review['review'] = request.POST['reviewcontent']
+        if review['review'] == "":
+            messages.error(request, 'Please write a review before you submit')
+            return redirect('djangoapp:add_review', dealer_id)
         review['purchase'] = request.POST.get('purchase-check', '') == 'on'
         if review['purchase'] == False:
             review['purchase_date'] = None
