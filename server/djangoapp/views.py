@@ -104,7 +104,7 @@ def registration_request(request):
                 login(request, user)
                 messages.success(
                     request, f'Welcome {username}. You are successfully logged in.')
-                return render(request, 'djangoapp/index.html', context)
+                return redirect('djangoapp:index')
         else:
             messages.error(request, 'User already exists.')
             return render(request, 'djangoapp/index.html')
